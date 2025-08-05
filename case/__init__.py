@@ -1,1 +1,2 @@
 from .case_id_scraper import get_uk_gov_case_id
+from .case_details_scraper import get_uk_gov_case_details_by_id
