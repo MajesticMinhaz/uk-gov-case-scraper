@@ -1,6 +1,6 @@
 from selenium_webdriver import get_selenium_chrome_driver
 from .get_scrapers import get_scraper_function
-from dbcore import get_config, create_case
+from dbcore import get_config, create_case, get_cases_with_none_reference, update_case_by_id
 from library import generate_monthly_dates
 
 env_config = get_config()
@@ -34,6 +34,39 @@ def run_scraper(category: str):
 
             for data in dataset:
                 create_case(_id=data)
+
+    elif category == 'case-details':
+        # Initialize Selenium Chrome driver once for all targets
+        chromedriver = get_selenium_chrome_driver(
+            headless=False,
+            chromedriver_path=env_config.get("CHROMEDRIVER_PATH")
+        )
+
+        print(f"Scraping {category}")
+        scraper_fuc = get_scraper_function(category)
+
+        cases = get_cases_with_none_reference()
+
+        for case in cases:
+            dataset = scraper_fuc(
+                webdriver_instance=chromedriver,
+                case_id=case.id
+            )
+
+            update_case_by_id(
+                case_id=case.id,
+                reference=dataset.get("reference"),
+                site_address=dataset.get("site_address"),
+                type=dataset.get("type"),
+                local_planning_authority=dataset.get("local_planning_authority"),
+                officer=dataset.get("officer"),
+                status=dataset.get("status"),
+                decision_date=dataset.get("decision_date"),
+                pdf_url=dataset.get("pdf_url"),
+                pdf_name=dataset.get("pdf_name"),
+            )
+
+            print(f"Checked Case ID: {case.id} Database updated.")
 
     else:
         # Category not recognized, no operation
