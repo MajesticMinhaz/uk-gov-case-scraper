@@ -1,7 +1,7 @@
 [project]
 name = "uk-gov-case-scraper"
 version = "0.1.0"
-description = "uk-gov-case-scraper is an automated web scraping tool designed to collect and store legal case information from official UK government websites. Built with Python 3.11+, the project utilizes Selenium for dynamic content extraction, BeautifulSoup for HTML parsing, and SQLAlchemy with PostgreSQL for structured data storage. This scraper is ideal for legal researchers, data analysts, or developers building applications that require real-time access to UK legal case data."
+description = "A Python-based web scraper that extracts legal case data from UK government websites. Uses Selenium and BeautifulSoup for scraping, SQLAlchemy and PostgreSQL for storage, and dotenv for environment management. Ideal for legal research, data analysis, and automating case data collection."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
