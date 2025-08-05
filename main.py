@@ -7,7 +7,7 @@ def main():
 
     parser.add_argument(
         "category",
-        choices=["case-id"],
+        choices=["case-id", "case-details"],
         help="Category to perform"
     )
 
