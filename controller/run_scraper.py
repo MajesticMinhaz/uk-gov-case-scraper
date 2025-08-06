@@ -71,8 +71,6 @@ def run_scraper(category: str):
                 pdf_name=dataset.get("pdf_name"),
             )
 
-            print(f"Checked Case ID: {case.id} Database updated.")
-
     else:
         # Category not recognized, no operation
         pass
