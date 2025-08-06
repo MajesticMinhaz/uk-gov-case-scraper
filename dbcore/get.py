@@ -28,18 +28,20 @@ def get_cases_with_pdf_url(limit: int = 100) -> list[Case]:
     """
     Retrieve cases that:
     - have pdf_url field as not null
+    - have pdf_downloaded field as False
     - ordered by ID ascending
 
     Args:
-        limit (int): Maximum number of records to retrieve (default: 1000)
+        limit (int): Maximum number of records to retrieve (default: 100)
 
     Returns:
-        list[Case]: Cases with non-null pdf_url, ordered by ID
+        list[Case]: Cases with non-null pdf_url and pdf_downloaded=False, ordered by ID
     """
     with db_instance.session_scope() as session:
         return (
             session.query(Case)
             .filter(Case.pdf_url.isnot(None))
+            .filter(Case.pdf_downloaded == False)
             .order_by(Case.id)
             .limit(limit)
             .all()
