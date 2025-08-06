@@ -46,3 +46,23 @@ def get_cases_with_pdf_url(limit: int = 100) -> list[Case]:
             .limit(limit)
             .all()
         )
+
+
+def get_all_cases(limit: int = None) -> list[Case]:
+    """
+    Retrieve all cases from the table ordered by ID ascending.
+
+    Args:
+        limit (int, optional): Maximum number of records to retrieve.
+                              If None, retrieves all records.
+
+    Returns:
+        list[Case]: All cases ordered by ID ascending
+    """
+    with db_instance.session_scope() as session:
+        query = session.query(Case).order_by(Case.id)
+
+        if limit is not None:
+            query = query.limit(limit)
+
+        return query.all()
