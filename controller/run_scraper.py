@@ -1,3 +1,5 @@
+import random
+import time
 from selenium_webdriver import get_selenium_chrome_driver
 from .get_scrapers import get_scraper_function
 from dbcore import get_config, create_case, get_cases_with_none_reference, update_case_by_id
@@ -52,6 +54,9 @@ def run_scraper(category: str):
                 webdriver_instance=chromedriver,
                 case_id=case.id
             )
+
+            # Wait for random second from 1 to 10
+            time.sleep(random.randint(1, 10))
 
             update_case_by_id(
                 case_id=case.id,
