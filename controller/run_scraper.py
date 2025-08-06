@@ -4,7 +4,7 @@ from pathlib import Path
 from selenium_webdriver import get_selenium_chrome_driver
 from .get_scrapers import get_scraper_function
 from dbcore import get_config, create_case, get_cases_with_none_reference, update_case_by_id, get_cases_with_pdf_url
-from library import generate_monthly_dates, download_pdf
+from library import generate_monthly_dates, download_pdf, export_cases_to_excel
 
 env_config = get_config()
 
@@ -107,6 +107,10 @@ def run_scraper(category: str):
                 case_id=case.id,
                 pdf_downloaded=True
             )
+
+    elif category == 'export-excel':
+        export_cases_to_excel()
+
     else:
         # Category not recognized, no operation
         pass
