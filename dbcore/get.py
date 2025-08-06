@@ -2,26 +2,32 @@ from .session import db as db_instance
 from .models import Case
 
 
-def get_cases_with_none_reference(limit: int = 1000) -> list[Case]:
+def get_cases_with_none_reference(limit: int = 1000, offset: int = None) -> list[Case]:
     """
     Retrieve cases that:
     - have reference field as None
     - ordered by ID ascending
 
     Args:
-        limit (int): Maximum number of records to retrieve (default: 100)
+        limit (int): Maximum number of records to retrieve (default: 1000)
+        offset (int, optional): Number of records to skip from the beginning.
+                               If None, no records are skipped.
 
     Returns:
         list[Case]: Cases with None reference, ordered by ID
     """
     with db_instance.session_scope() as session:
-        return (
+        query = (
             session.query(Case)
             .filter(Case.reference.is_(None))
             .order_by(Case.id)
-            .limit(limit)
-            .all()
         )
+
+        # Apply offset if provided
+        if offset is not None:
+            query = query.offset(offset)
+
+        return query.limit(limit).all()
 
 
 def get_cases_with_pdf_url(limit: int = 100) -> list[Case]:

@@ -48,7 +48,7 @@ def run_scraper(category: str):
         print(f"Scraping {category}")
         scraper_fuc = get_scraper_function(category)
 
-        cases = get_cases_with_none_reference()
+        cases = get_cases_with_none_reference(offset=11)
 
         for case in cases:
             dataset = scraper_fuc(
@@ -57,7 +57,7 @@ def run_scraper(category: str):
             )
 
             # Wait for random second from 1 to 10
-            time.sleep(random.randint(1, 10))
+            time.sleep(random.randint(1, 6))
 
             update_case_by_id(
                 case_id=case.id,
