@@ -191,14 +191,22 @@ def _extract_pdf_details(driver: WebDriver) -> tuple[Optional[str], Optional[str
         links = pdf_container.find_elements(By.TAG_NAME, "a")
 
         if links:
-            first_link = links[0]
-            pdf_url = first_link.get_attribute("href")
-            pdf_name = first_link.text.strip()
+            pdf_urls = []
+            pdf_names = []
 
-            return (
-                pdf_url.strip() if pdf_url else None,
-                pdf_name if pdf_name else None
-            )
+            for link in links:
+                pdf_url = link.get_attribute("href")
+                pdf_name = link.text.strip()
+
+                if pdf_url:
+                    pdf_urls.append(pdf_url.strip())
+                    pdf_names.append(pdf_name if pdf_name else "")
+
+            if pdf_urls:
+                return (
+                    "|".join(pdf_urls),
+                    "|".join(pdf_names)
+                )
 
     except NoSuchElementException:
         print("Warning: PDF decision link element not found")
